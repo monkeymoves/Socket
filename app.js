@@ -38,14 +38,14 @@ const presets = [
   {
     id: "emil",
     name: "Emil",
-    description: "10s hang · 20s rest · 24 rounds · 1 continuous set",
+    description: "10s hang · 20s rest · 24 reps · 1 round",
     settings: {
       warmup: 13,
       hang: 10,
       rest: 20,
-      reps: 1,
+      reps: 24,
       setRest: 0,
-      rounds: 24,
+      rounds: 1,
     },
     cues: [
       { start: 1, end: 2, text: "Jugs" },
@@ -424,7 +424,7 @@ function renderIdle() {
   ui.nextLabel.textContent = "Select a preset or tune settings";
   setRingVisuals(0, phaseColors.prestart, "prestart");
   setCompletionVisible(false);
-  updateEmilCue();
+  updateEmilCue(false, null);
   document.title = "Hangout Time";
 }
 
@@ -447,7 +447,7 @@ function renderDone() {
   ui.nextLabel.textContent = "Workout finished";
   setRingVisuals(1, phaseColors.done, "done");
   setCompletionVisible(true);
-  updateEmilCue(true);
+  updateEmilCue(true, null);
   document.title = "Workout Complete";
 }
 
@@ -553,10 +553,14 @@ function updateControls() {
   if (state.mode === "collab") {
     ui.startBtn.textContent = "Start Together";
     ui.startBtn.disabled = !sessionActive;
+    ui.startBtn.title = sessionActive
+      ? ""
+      : "Create a collab session first";
     ui.pauseBtn.disabled = true;
   } else {
     ui.startBtn.textContent = state.running ? "Restart" : "Start";
     ui.startBtn.disabled = false;
+    ui.startBtn.title = "";
     ui.pauseBtn.disabled = !state.running && !state.paused;
   }
   ui.pauseBtn.textContent = state.paused ? "Resume" : "Pause";
@@ -764,9 +768,13 @@ async function startTogether() {
 function copySessionLink() {
   if (!sessionCode) return;
   const url = `${window.location.origin}${window.location.pathname}?session=${sessionCode}`;
-  navigator.clipboard.writeText(url).catch(() => {
-    alert("Copy failed. You can share the code instead.");
-  });
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(url).catch(() => {
+      alert("Copy failed. You can share the code instead.");
+    });
+    return;
+  }
+  window.prompt("Copy this link:", url);
 }
 
 function generateSessionCode() {
@@ -873,14 +881,13 @@ function updateEmilCue(isComplete = false, phase = null) {
     return;
   }
 
-  const currentRound = phase?.round || 0;
-  if (!currentRound) {
-    ui.emilCue.textContent = "Prep for Emil";
-    ui.emilCue.classList.add("show");
+  if (!phase || phase.type !== "hang") {
+    ui.emilCue.textContent = "";
+    ui.emilCue.classList.remove("show");
     return;
   }
 
-  const cue = getEmilCue(currentRound);
+  const cue = getEmilCue(phase.rep || 0);
   ui.emilCue.textContent = cue ? cue.text : "";
   ui.emilCue.classList.toggle("show", Boolean(cue));
 }

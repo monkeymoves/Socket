@@ -5,14 +5,14 @@
   --muted: #6b7484;
   --card: #ffffffcc;
   --card-border: #e1e4e8;
-  --accent: #8cb7bf;
-  --hang: #86dbc7;
-  --rest: #f6a8b3;
-  --setrest: #b6c7ff;
-  --warmup: #92b9ff;
-  --done: #9cb1c6;
-  --timer-text: rgba(255, 250, 246, 0.96);
-  --timer-muted: rgba(255, 250, 246, 0.72);
+  --accent: #6f99a0;
+  --hang: #56bda6;
+  --rest: #e08a98;
+  --setrest: #8ea6e5;
+  --warmup: #7399e1;
+  --done: #8798b0;
+  --timer-text: rgba(255, 250, 246, 0.98);
+  --timer-muted: rgba(255, 250, 246, 0.78);
   --shadow: 0 24px 60px rgba(25, 31, 43, 0.12);
   --radius: 24px;
 }
@@ -30,7 +30,7 @@ body {
 }
 
 .app {
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 32px 20px 60px;
 }
@@ -120,50 +120,54 @@ h1 {
   gap: 20px;
   align-items: center;
   text-align: center;
+  position: relative;
 }
 
 .timer-ring {
   --progress: 0.0;
   --phase-color: var(--accent);
   --pulse-duration: 6s;
-  width: min(320px, 75vw);
-  height: min(320px, 75vw);
+  width: 100%;
+  height: clamp(340px, 55vh, 620px);
   margin: 0 auto;
-  border-radius: 50%;
+  border-radius: 28px;
   position: relative;
-  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.5) 0%, transparent 45%),
-    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.35) 0%, transparent 50%),
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 55%),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.25) 0%, transparent 55%),
     var(--phase-color);
   border: none;
   display: grid;
   place-items: center;
-  padding: 14px;
+  padding: 20px;
   box-shadow: 0 30px 70px rgba(26, 30, 37, 0.2);
   transition: background 560ms ease;
+  z-index: 1;
 }
 
 .timer-ring::before {
   content: "";
   position: absolute;
-  inset: -10px;
-  border-radius: 50%;
+  inset: -8px;
+  border-radius: 30px;
   background: radial-gradient(circle, var(--phase-color) 0%, transparent 70%);
-  opacity: 0.22;
-  filter: blur(10px);
+  opacity: 0.2;
+  filter: blur(14px);
   z-index: 0;
   animation: phasePulse var(--pulse-duration) ease-in-out infinite;
   pointer-events: none;
 }
 
 .timer-core {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.1);
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  box-shadow: inset 0 0 30px rgba(40, 52, 72, 0.18);
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 36px 36px 160px;
+  box-shadow: inset 0 0 40px rgba(40, 52, 72, 0.22);
   position: relative;
   z-index: 1;
   color: var(--timer-text);
@@ -173,15 +177,16 @@ h1 {
 .phase-label {
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  font-size: 0.75rem;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
   margin: 0;
   color: var(--timer-muted);
 }
 
 .timer-value {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: clamp(2.6rem, 9vw, 4.2rem);
-  font-weight: 500;
+  font-family: "Sora", "Space Grotesk", system-ui, sans-serif;
+  font-size: clamp(4.2rem, 12vw, 6.8rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
   margin: 8px 0;
 }
 
@@ -189,7 +194,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 0.95rem;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
   color: var(--timer-muted);
 }
 
@@ -198,9 +203,7 @@ h1 {
 }
 
 .next-row {
-  margin-top: 8px;
-  font-size: 0.9rem;
-  color: var(--timer-muted);
+  display: none;
 }
 
 .completion-message {
@@ -219,7 +222,7 @@ h1 {
 
 .emil-cue {
   margin-top: 10px;
-  font-size: 0.95rem;
+  font-size: clamp(1.8rem, 5vw, 3.6rem);
   font-weight: 600;
   color: var(--timer-text);
   opacity: 0;
@@ -233,10 +236,17 @@ h1 {
 }
 
 .controls {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
+  padding: 6px;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .btn {
@@ -249,6 +259,37 @@ h1 {
   border: 1px solid var(--card-border);
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
+
+.timer-card .btn {
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  min-width: 110px;
+  background: rgba(255, 255, 255, 0.98);
+  color: #242b33;
+  border: 2px solid rgba(0, 0, 0, 0.18);
+  box-shadow: 0 12px 26px rgba(20, 28, 38, 0.18);
+}
+
+.timer-card .btn.primary {
+  background: #ffffff;
+  color: #2b3a42;
+  border-color: rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 30px rgba(20, 28, 38, 0.22);
+}
+
+.timer-card .btn.ghost {
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f272f;
+  border: 2px solid rgba(0, 0, 0, 0.24);
+  box-shadow: 0 10px 20px rgba(20, 28, 38, 0.12);
+}
+
+.timer-card .btn:disabled {
+  opacity: 0.55;
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
 
 .btn:hover {
   transform: translateY(-1px);
@@ -281,6 +322,8 @@ h1 {
 .session-card h2 {
   margin-top: 0;
   margin-bottom: 16px;
+  color: var(--muted);
+  font-weight: 600;
 }
 
 .preset-header {
@@ -394,6 +437,7 @@ h1 {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
+  color: var(--muted);
 }
 
 .field-row {
@@ -405,6 +449,7 @@ h1 {
 
 .field-row input[type="range"] {
   width: 100%;
+  accent-color: var(--accent);
 }
 
 .field-row input[type="number"] {
@@ -413,6 +458,7 @@ h1 {
   border-radius: 10px;
   border: 1px solid var(--card-border);
   font-family: "JetBrains Mono", ui-monospace, monospace;
+  color: var(--ink);
 }
 
 .unit {
@@ -480,11 +526,11 @@ h1 {
 
 @media (min-width: 900px) {
   .grid {
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: start;
     grid-template-areas:
-      "timer settings"
-      "presets session";
+      "timer timer timer"
+      "settings presets session";
     grid-auto-rows: min-content;
   }
 
@@ -511,6 +557,30 @@ h1 {
   .settings-hint {
     display: none;
   }
+
+  .timer-ring {
+    height: clamp(480px, 62vh, 780px);
+  }
+
+  .timer-value {
+    font-size: clamp(5rem, 8vw, 8.2rem);
+  }
+
+  .phase-label {
+    font-size: clamp(2rem, 3vw, 3.4rem);
+  }
+
+  .sub-row {
+    font-size: clamp(1.7rem, 2.4vw, 2.4rem);
+  }
+
+  .next-row {
+    font-size: 1.1rem;
+  }
+
+  .emil-cue {
+    font-size: clamp(2.4rem, 3.6vw, 4.2rem);
+  }
 }
 
 @media (max-width: 600px) {
@@ -533,6 +603,29 @@ h1 {
   .settings-hint {
     margin-bottom: 10px;
   }
+
+  .timer-ring {
+    height: clamp(260px, 45vh, 420px);
+  }
+
+  .timer-core {
+    padding-bottom: 86px;
+  }
+
+  .controls {
+    position: static;
+    transform: none;
+    margin-top: 16px;
+    padding: 0;
+  }
+
+  .timer-card .btn {
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    min-width: 92px;
+    border-width: 2px;
+  }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
