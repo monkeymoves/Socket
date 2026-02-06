@@ -142,19 +142,7 @@ h1 {
   box-shadow: 0 30px 70px rgba(26, 30, 37, 0.2);
   transition: background 560ms ease;
   z-index: 1;
-}
-
-.timer-ring::before {
-  content: "";
-  position: absolute;
-  inset: -8px;
-  border-radius: 30px;
-  background: radial-gradient(circle, var(--phase-color) 0%, transparent 70%);
-  opacity: 0.2;
-  filter: blur(14px);
-  z-index: 0;
-  animation: phasePulse var(--pulse-duration) ease-in-out infinite;
-  pointer-events: none;
+  overflow: hidden;
 }
 
 .timer-core {
@@ -605,7 +593,8 @@ h1 {
   }
 
   .timer-ring {
-    height: clamp(260px, 45vh, 420px);
+    height: auto;
+    aspect-ratio: 4 / 3;
   }
 
   .timer-core {
