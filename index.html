@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hangboard Timer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero">
+        <div>
+          <h1 class="hero-title">Hangout Time</h1>
+        </div>
+        <div class="mode-toggle" role="group" aria-label="Session mode">
+          <button class="toggle-btn active" id="soloModeBtn" type="button">Solo</button>
+          <button class="toggle-btn" id="collabModeBtn" type="button">Collaborate</button>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="card timer-card">
+          <div class="timer-ring" id="timerRing">
+            <div class="timer-core">
+              <p class="phase-label" id="phaseLabel">Ready</p>
+              <div class="timer-value" id="timerValue">00:00</div>
+              <div class="sub-row">
+                <span id="roundLabel">Round 0/0</span>
+                <span class="dot">•</span>
+                <span id="repLabel">Rep 0/0</span>
+              </div>
+              <div class="next-row" id="nextLabel">Select a preset or tune settings</div>
+              <div class="emil-cue" id="emilCue"></div>
+              <div class="completion-message" id="completionMessage">
+                Well done — session complete.
+              </div>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="btn primary" id="startBtn">Start</button>
+            <button class="btn" id="pauseBtn" disabled>Pause</button>
+            <button class="btn ghost" id="resetBtn">Reset</button>
+          </div>
+        </section>
+
+        <section class="card session-card" id="sessionCard">
+          <div class="session-title">
+            <h2>Start Together</h2>
+            <span class="sync-pill" id="syncStatus">Not connected</span>
+          </div>
+          <p class="muted">
+            Create a session to sync the exact start time. Share the code with your
+            partner so you begin on the same second.
+          </p>
+          <div class="session-actions">
+            <button class="btn" id="createSessionBtn">Create Session</button>
+            <div class="join-row">
+              <input
+                type="text"
+                id="sessionCodeInput"
+                placeholder="Enter code"
+                maxlength="6"
+              />
+              <button class="btn" id="joinSessionBtn">Join</button>
+            </div>
+          </div>
+          <div class="session-info" id="sessionInfo">
+            <div>
+              <p class="session-label">Session Code</p>
+              <p class="session-code" id="sessionCode">—</p>
+            </div>
+            <button class="btn ghost" id="copySessionBtn">Copy Link</button>
+          </div>
+          <p class="tiny" id="sessionHint">
+            Add your Firebase config in <code>app.js</code> to enable real-time sync.
+          </p>
+        </section>
+
+        <section class="card presets-card">
+          <div class="preset-header">
+            <h2>Presets</h2>
+            <span class="default-badge" id="defaultBadge">Default</span>
+          </div>
+          <div class="preset-list" id="presetList"></div>
+        </section>
+
+        <section class="card settings-card">
+          <div class="settings-header">
+            <h2>Settings</h2>
+            <button
+              class="btn ghost small"
+              id="settingsToggleBtn"
+              type="button"
+              aria-expanded="true"
+            >
+              Hide
+            </button>
+          </div>
+          <p class="settings-hint">Tap to fine-tune if you want to customize.</p>
+          <div class="settings-body" id="settingsBody">
+            <div class="settings-grid">
+            <div class="field">
+              <label for="warmup">Warmup</label>
+              <div class="field-row">
+                <input type="range" id="warmup" min="0" max="60" step="1" />
+                <input type="number" id="warmupNum" min="0" max="60" step="1" />
+                <span class="unit">sec</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="hang">Hang</label>
+              <div class="field-row">
+                <input type="range" id="hang" min="1" max="30" step="1" />
+                <input type="number" id="hangNum" min="1" max="30" step="1" />
+                <span class="unit">sec</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="rest">Rest (between reps)</label>
+              <div class="field-row">
+                <input type="range" id="rest" min="0" max="60" step="1" />
+                <input type="number" id="restNum" min="0" max="60" step="1" />
+                <span class="unit">sec</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="reps">Reps</label>
+              <div class="field-row">
+                <input type="range" id="reps" min="1" max="12" step="1" />
+                <input type="number" id="repsNum" min="1" max="12" step="1" />
+                <span class="unit">count</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="setRest">Rest (between sets)</label>
+              <div class="field-row">
+                <input type="range" id="setRest" min="0" max="300" step="5" />
+                <input type="number" id="setRestNum" min="0" max="300" step="5" />
+                <span class="unit">sec</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="rounds">Rounds</label>
+              <div class="field-row">
+                <input type="range" id="rounds" min="1" max="10" step="1" />
+                <input type="number" id="roundsNum" min="1" max="10" step="1" />
+                <span class="unit">count</span>
+              </div>
+            </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
