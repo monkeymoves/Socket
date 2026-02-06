@@ -592,13 +592,17 @@ h1 {
     margin-bottom: 10px;
   }
 
+  .timer-card {
+    padding: 16px;
+  }
+
   .timer-ring {
-    height: auto;
-    aspect-ratio: 4 / 3;
+    height: clamp(360px, 92vw, 560px);
+    padding: 12px;
   }
 
   .timer-core {
-    padding-bottom: 86px;
+    padding-bottom: 96px;
   }
 
   .controls {
@@ -610,9 +614,25 @@ h1 {
 
   .timer-card .btn {
     padding: 12px 18px;
-    font-size: 0.95rem;
-    min-width: 92px;
+    font-size: 1rem;
+    min-width: 96px;
     border-width: 2px;
+  }
+
+  .phase-label {
+    font-size: clamp(1.4rem, 5vw, 2.2rem);
+  }
+
+  .timer-value {
+    font-size: clamp(3.4rem, 14vw, 5.4rem);
+  }
+
+  .sub-row {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+  }
+
+  .emil-cue {
+    font-size: clamp(1.6rem, 6vw, 2.8rem);
   }
 
 }
