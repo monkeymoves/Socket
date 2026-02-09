@@ -40,7 +40,7 @@ const presets = [
     name: "Emil",
     description: "10s hang · 20s rest · 24 reps · 1 round",
     settings: {
-      warmup: 13,
+      warmup: 30,
       hang: 10,
       rest: 20,
       reps: 24,
