@@ -68,6 +68,7 @@ const storageKey = "hangboard-settings-v1";
 
 const ui = {
   timerRing: document.getElementById("timerRing"),
+  timerCore: document.getElementById("timerCore"),
   phaseLabel: document.getElementById("phaseLabel"),
   timerValue: document.getElementById("timerValue"),
   roundLabel: document.getElementById("roundLabel"),
@@ -92,6 +93,8 @@ const ui = {
   sessionInfo: document.getElementById("sessionInfo"),
   sessionHint: document.getElementById("sessionHint"),
   completionMessage: document.getElementById("completionMessage"),
+  completionMedia: document.getElementById("completionMedia"),
+  completionGif: document.getElementById("completionGif"),
   emilCue: document.getElementById("emilCue"),
   defaultBadge: document.getElementById("defaultBadge"),
 };
@@ -446,6 +449,7 @@ function renderDone() {
   ui.repLabel.textContent = `Rep ${state.settings.reps}/${state.settings.reps}`;
   ui.nextLabel.textContent = "Workout finished";
   setRingVisuals(1, phaseColors.done, "done");
+  restartCompletionGif();
   setCompletionVisible(true);
   updateEmilCue(true, null);
   document.title = "Workout Complete";
@@ -516,6 +520,20 @@ function setRingVisuals(progress, color, phaseType) {
 function setCompletionVisible(visible) {
   if (!ui.completionMessage) return;
   ui.completionMessage.classList.toggle("show", visible);
+  if (ui.completionMedia) {
+    ui.completionMedia.classList.toggle("show", visible);
+  }
+}
+
+function restartCompletionGif() {
+  if (!ui.completionGif) return;
+  const originalSrc =
+    ui.completionGif.dataset.originalSrc || ui.completionGif.getAttribute("src");
+  if (!ui.completionGif.dataset.originalSrc) {
+    ui.completionGif.dataset.originalSrc = originalSrc;
+  }
+  const separator = originalSrc.includes("?") ? "&" : "?";
+  ui.completionGif.src = `${originalSrc}${separator}t=${Date.now()}`;
 }
 
 function findPhase(elapsed) {
