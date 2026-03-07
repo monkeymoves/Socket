@@ -128,6 +128,7 @@ h1 {
   --phase-color: var(--accent);
   --pulse-duration: 6s;
   width: 100%;
+  max-width: 1220px;
   height: clamp(340px, 55vh, 620px);
   margin: 0 auto;
   border-radius: 28px;
@@ -150,10 +151,8 @@ h1 {
   width: 100%;
   height: 100%;
   border-radius: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  display: grid;
+  place-items: center;
   padding: 64px 36px 136px;
   box-shadow: inset 0 0 40px rgba(40, 52, 72, 0.22);
   position: relative;
@@ -168,6 +167,14 @@ h1 {
   z-index: 1;
 }
 
+.timer-copy {
+  width: min(100%, 860px);
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  row-gap: clamp(10px, 1.6vh, 18px);
+}
+
 .phase-label {
   display: flex;
   align-items: center;
@@ -177,7 +184,7 @@ h1 {
   font-size: clamp(1.6rem, 4vw, 2.8rem);
   line-height: 1;
   min-height: 1.2em;
-  margin: 0 0 0.18em;
+  margin: 0;
   color: var(--timer-muted);
   text-align: center;
 }
@@ -187,7 +194,7 @@ h1 {
   font-size: clamp(4.2rem, 12vw, 6.8rem);
   font-weight: 600;
   letter-spacing: 0.01em;
-  margin: 8px 0;
+  margin: 0;
 }
 
 .sub-row {
@@ -207,7 +214,7 @@ h1 {
 }
 
 .completion-message {
-  margin-top: 12px;
+  margin-top: 0;
   font-weight: 600;
   color: var(--timer-text);
   opacity: 0;
@@ -250,7 +257,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 0;
   font-size: clamp(1.8rem, 5vw, 3.6rem);
   font-weight: 600;
   line-height: 1.1;
@@ -594,7 +601,7 @@ h1 {
   }
 
   .timer-core {
-    padding-top: clamp(104px, 12vh, 152px);
+    padding: 44px 40px 136px;
   }
 
   .timer-value {
@@ -624,8 +631,7 @@ h1 {
   }
 
   .timer-core {
-    padding-top: clamp(96px, 11vh, 132px);
-    padding-bottom: 120px;
+    padding: 36px 32px 120px;
   }
 }
 
@@ -660,8 +666,12 @@ h1 {
   }
 
   .timer-core {
-    justify-content: flex-start;
     padding: 44px 20px 88px;
+  }
+
+  .timer-copy {
+    width: 100%;
+    row-gap: 10px;
   }
 
   .controls {
