@@ -247,9 +247,14 @@ h1 {
 }
 
 .emil-cue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 10px;
   font-size: clamp(1.8rem, 5vw, 3.6rem);
   font-weight: 600;
+  line-height: 1.1;
+  min-height: 1.2em;
   color: var(--timer-text);
   opacity: 0;
   transform: translateY(6px);
