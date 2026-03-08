@@ -575,6 +575,7 @@ h1 {
 
   .timer-card {
     grid-area: timer;
+    padding: 30px 30px 102px;
   }
 
   .presets-card {
@@ -599,6 +600,7 @@ h1 {
 
   .timer-ring {
     height: clamp(460px, 58vh, 720px);
+    padding: 24px;
   }
 
   .timer-core {
@@ -606,7 +608,7 @@ h1 {
   }
 
   .controls {
-    bottom: 22px;
+    bottom: 28px;
   }
 
   .timer-value {
@@ -633,6 +635,7 @@ h1 {
 @media (min-width: 900px) and (max-height: 900px) {
   .timer-ring {
     height: clamp(420px, 54vh, 620px);
+    padding: 20px;
   }
 
   .timer-core {
